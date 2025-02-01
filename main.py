@@ -4,7 +4,7 @@ import gspread
 from datetime import datetime
 
 def sheets_auth():
-  gs = gspread.service_account(filename=)
+  gs = gspread.service_account(filename='secret.json')
   sh = gs.open_by_key('1jFAmcVoe21eJSLSGWANeccOdrUMOXKsNZFsp8gtIfDg')
   return sh
 
