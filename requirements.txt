@@ -1,3 +1,4 @@
 steammarket==2.0.0
 gspread==6.1.4
 datetime==5.5
+Flask==3.1.0

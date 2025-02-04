@@ -5,4 +5,5 @@ RUN chmod 0644 /app/job.sh
 RUN apt-get update
 RUN apt-get -y install cron
 RUN crontab -l | { cat; echo "0 0 * * * bash /app/job.sh"; } | crontab -
-CMD cron && tail -f /dev/null
+RUN cron
+CMD ["python3.10", "app/main.py"]

@@ -2,9 +2,14 @@ import steammarket as sm
 import time as time
 import gspread
 from datetime import datetime
+from flask import Flask
+from flask import Response
+
+
+app = Flask(__name__)
 
 def sheets_auth():
-  gs = gspread.service_account(filename='secret.json')
+  gs = gspread.service_account(filename='/app/secret.json')
   sh = gs.open_by_key('1jFAmcVoe21eJSLSGWANeccOdrUMOXKsNZFsp8gtIfDg')
   return sh
 
@@ -36,7 +41,7 @@ def item_price(name):
   except:
     price_int = 'error'
   return price_int
-
+@app.route('/api/rust-invest/update', methods=['GET'])
 def main():
   sh = sheets_auth()
   worksheet = sh.worksheet('main')
@@ -57,5 +62,7 @@ def main():
   if len(errnames) > 0:
     print('Error on discovering item price for items:', errnames)
   put_arch()
+  return Response(status = 200)
 
-main()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000)
