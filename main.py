@@ -24,11 +24,15 @@ def get_items():
 
 def put_arch():
   sh = sheets_auth()
-  end = len(sh.worksheet('arch').col_values(1))+1
+  end = len(sh.worksheet('arch').col_values(1))
   st = sh.worksheet('main').col_values(5).pop()
-  date = str(datetime.now().strftime("%Y-%m-%d"))
-  sh.worksheet('arch').update_cell(end, 1, date)
-  sh.worksheet('arch').update_cell(end, 2, st)
+  date = str(datetime.now().strftime("%m/%d/%Y"))
+  last = str(sh.worksheet('arch').cell(end, 1).value)
+  if date==last:
+    sh.worksheet('arch').update_cell(end, 2, st)
+  else:
+    sh.worksheet('arch').update_cell(end+1, 1, date)
+    sh.worksheet('arch').update_cell(end+1, 2, st)
 
 def item_price(name):
   item = sm.get_item(252490, name, currency='RUB')
