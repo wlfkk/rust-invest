@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rust-invest-updater
+  namespace: apps
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: rust-invest-updater
+            image: curlimages/curl:latest
+            args:
+            - "http://rust-invest/api/rust-invest/update"
+          restartPolicy: OnFailure

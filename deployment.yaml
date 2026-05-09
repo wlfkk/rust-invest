@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rust-invest
+  namespace: apps
+  labels:
+    app: rust-invest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust-invest
+  template:
+    metadata:
+      labels:
+        app: rust-invest
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: rust-invest
+        image: wlfk/home:rust-invest-1.0.1
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: sheets-auth
+          mountPath: "/app/secret.json"
+          subPath: "secret.json"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+      volumes:
+        - name: sheets-auth
+          secret:
+            secretName: sheets-auth
